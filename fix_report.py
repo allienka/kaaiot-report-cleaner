@@ -18,8 +18,14 @@ output_dir.mkdir(exist_ok=True)
 
 output_file = output_dir / f"{input_file.stem}_fixed.xlsx"
 
-# Load workbook
-wb = load_workbook(input_file)
+
+# Load workbook safely
+try:
+    wb = load_workbook(input_file)
+
+except Exception as e:
+    print(f"Error loading workbook: {e}")
+    sys.exit(1)
 
 # Loop through all sheets
 for ws in wb.worksheets:
