@@ -4,13 +4,19 @@ from openpyxl import load_workbook
 
 
 # Check command line arguments
-if len(sys.argv) != 3:
-    print("Usage: python fix_report.py <input_file> <output_file>")
+if len(sys.argv) != 2:
+    print("Usage: python fix_report.py <input_file>")
     sys.exit(1)
 
 # Get file paths from arguments
+# Input file
 input_file = Path(sys.argv[1])
-output_file = Path(sys.argv[2])
+
+# Create output filename automatically
+output_dir = Path("output")
+output_dir.mkdir(exist_ok=True)
+
+output_file = output_dir / f"{input_file.stem}_fixed.xlsx"
 
 # Load workbook
 wb = load_workbook(input_file)
