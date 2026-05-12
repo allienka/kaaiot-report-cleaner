@@ -1,9 +1,16 @@
-from openpyxl import load_workbook
+import sys
 from pathlib import Path
+from openpyxl import load_workbook
 
-# File paths
-input_file = Path("sample_reports/input.xlsx")
-output_file = Path("output/output_fixed.xlsx")
+
+# Check command line arguments
+if len(sys.argv) != 3:
+    print("Usage: python fix_report.py <input_file> <output_file>")
+    sys.exit(1)
+
+# Get file paths from arguments
+input_file = Path(sys.argv[1])
+output_file = Path(sys.argv[2])
 
 # Load workbook
 wb = load_workbook(input_file)
