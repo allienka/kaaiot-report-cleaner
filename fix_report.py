@@ -38,8 +38,10 @@ for ws in wb.worksheets:
 
                     # Replace text with real number
                     cell.value = number
+                    
+                    print(f"Converted {cell.coordinate}: {value} -> {number}")
 
-                except:
+                except ValueError:
                     # Ignore non-numeric text
                     pass
 
