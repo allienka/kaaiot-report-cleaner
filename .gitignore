@@ -24,3 +24,5 @@ incoming/
 processed/
 logs/
 output/
+
+.env
