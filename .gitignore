@@ -19,4 +19,8 @@ logs/
 .DS_Store
 Thumbs.db
 
+
+incoming/
+processed/
+logs/
 output/
