@@ -137,11 +137,12 @@ Potential future features:
 
 ---
 
-# Scaleway Deployment Plan
+# Scaleway VPS Deployment
 
-## Planned VPS Setup
+## Current VPS Deployment
 
 * Ubuntu Linux VPS
+* Scaleway
 * Python 3
 * openpyxl
 * GitHub repository clone
@@ -149,9 +150,28 @@ Potential future features:
 
 Estimated infrastructure cost:
 
-* ~5 €/month
+* ~10 €/month
 
----
+# VPS Deployment
+
+Clone repository:
+
+```bash
+git clone https://github.com/allienka/kaaiot-report-cleaner.git
+```
+
+Install dependencies:
+
+```bash
+pip3 install -r requirements.txt
+```
+
+Run script:
+
+```bash
+python3 fix_report.py sample_reports/input.xlsx
+
+```
 
 # Learning Goals
 
