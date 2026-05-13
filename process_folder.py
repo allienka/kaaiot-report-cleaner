@@ -1,6 +1,7 @@
 from pathlib import Path
 from shutil import move
 from openpyxl import load_workbook
+from datetime import datetime
 
 # Define folders
 incoming_dir = Path("incoming")
@@ -19,7 +20,12 @@ for input_file in excel_files:
     print(f"Processing: {input_file.name}")
 
     # Create output filename
-    output_file = output_dir / f"{input_file.stem}_fixed.xlsx"
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+
+    output_file = (
+    output_dir /
+    f"{input_file.stem}_fixed_{timestamp}.xlsx"
+    )
 
     try:
         # Load workbook
