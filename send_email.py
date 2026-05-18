@@ -1,19 +1,17 @@
-import smtplib
 import resend
+import base64
 
-from email.message import EmailMessage
 from pathlib import Path
 from dotenv import load_dotenv
 from os import getenv
 
 load_dotenv()
 
-EMAIL_USER = getenv("GMAIL_USER")
-EMAIL_PASS = getenv("GMAIL_APP_PASSWORD")
+# Resend API key
+resend.api_key = getenv("RESEND_API_KEY")
 
 # Recipient email
-RECIPIENT = "alena.hakkarainen@gmail.com"
-#RECIPIENT = getenv("REPORT_RECIPIENT")
+RECIPIENT = "alena.rebova@gmail.com"
 
 output_dir = Path("output")
 
@@ -31,45 +29,25 @@ latest_file = max(
 
 print(f"Sending file: {latest_file.name}")
 
-# Create email
-msg = EmailMessage()
-
-msg["Subject"] = "Processed KaaIoT Report"
-msg["From"] = EMAIL_USER
-msg["To"] = RECIPIENT
-
-msg.set_content(
-    "Attached is the processed KaaIoT report."
-)
-
-# Attach file
+# Read and encode file
 with open(latest_file, "rb") as f:
 
-    file_data = f.read()
-
-    msg.add_attachment(
-        file_data,
-        maintype="application",
-        subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        filename=latest_file.name
-    )
+    file_content = base64.b64encode(
+        f.read()
+    ).decode("utf-8")
 
 # Send email
-resend.api_key = getenv("RESEND_API_KEY")
-
-with open(latest_file, "rb") as f:
-
-    resend.Emails.send({
-        "from": "onboarding@resend.dev",
-        "to": [RECIPIENT],
-        "subject": "Processed KaaIoT Report",
-        "html": "<p>Attached is the processed KaaIoT report.</p>",
-        "attachments": [
-            {
-                "filename": latest_file.name,
-                "content": f.read()
-            }
-        ]
-    })
+resend.Emails.send({
+    "from": "onboarding@resend.dev",
+    "to": [RECIPIENT],
+    "subject": "Processed KaaIoT Report",
+    "html": "<p>Attached is the processed KaaIoT report.</p>",
+    "attachments": [
+        {
+            "filename": latest_file.name,
+            "content": file_content
+        }
+    ]
+})
 
 print("Email sent successfully!")
