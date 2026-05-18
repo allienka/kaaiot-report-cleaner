@@ -1,4 +1,5 @@
 import smtplib
+import resend
 
 from email.message import EmailMessage
 from pathlib import Path
@@ -54,12 +55,21 @@ with open(latest_file, "rb") as f:
     )
 
 # Send email
-with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+resend.api_key = getenv("RESEND_API_KEY")
 
-    smtp.starttls()
+with open(latest_file, "rb") as f:
 
-    smtp.login(EMAIL_USER, EMAIL_PASS)
-
-    smtp.send_message(msg)
+    resend.Emails.send({
+        "from": "onboarding@resend.dev",
+        "to": [RECIPIENT],
+        "subject": "Processed KaaIoT Report",
+        "html": "<p>Attached is the processed KaaIoT report.</p>",
+        "attachments": [
+            {
+                "filename": latest_file.name,
+                "content": f.read()
+            }
+        ]
+    })
 
 print("Email sent successfully!")
