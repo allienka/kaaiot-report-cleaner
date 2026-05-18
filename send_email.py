@@ -54,7 +54,9 @@ with open(latest_file, "rb") as f:
     )
 
 # Send email
-with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+
+    smtp.starttls()
 
     smtp.login(EMAIL_USER, EMAIL_PASS)
 
