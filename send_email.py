@@ -56,7 +56,7 @@ resend.Emails.send({
 
     <p>
     Ystävällisin terveisin,<br>
-    ETEC Automated Reporting
+    Etec Automation Oy      
     </p>
     """,
     "attachments": [
