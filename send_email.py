@@ -26,8 +26,15 @@ latest_file = max(
     xlsx_files,
     key=lambda f: f.stat().st_mtime
 )
+clean_name = latest_file.name
 
-print(f"Sending file: {latest_file.name}")
+clean_name = clean_name.replace("_fixed", "")
+
+# remove timestamp
+parts = clean_name.rsplit("_", 2)
+
+if len(parts) == 3:
+    clean_name = parts[0] + ".xlsx"
 
 # Read and encode file
 with open(latest_file, "rb") as f:
@@ -40,11 +47,11 @@ with open(latest_file, "rb") as f:
 resend.Emails.send({
     "from": "onboarding@resend.dev",
     "to": [RECIPIENT],
-    "subject": "Processed KaaIoT Report",
+    "subject": "Monthly KaaIoT Report",
     "html": "<p>Attached is the processed KaaIoT report.</p>",
     "attachments": [
         {
-            "filename": latest_file.name,
+            "filename": clean_name,
             "content": file_content
         }
     ]
