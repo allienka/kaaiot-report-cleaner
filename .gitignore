@@ -1,6 +1,9 @@
 # Python virtual environment
 venv/
 
+# Environment variables / secrets
+.env
+
 # Python cache
 __pycache__/
 *.pyc
@@ -9,8 +12,10 @@ __pycache__/
 .vscode/
 
 # Generated reports
-reports/
 output/
+incoming/
+processed/
+reports/
 
 # Logs
 logs/
@@ -18,11 +23,3 @@ logs/
 # OS files
 .DS_Store
 Thumbs.db
-
-
-incoming/
-processed/
-logs/
-output/
-
-.env
