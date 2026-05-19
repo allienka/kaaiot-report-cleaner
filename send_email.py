@@ -26,19 +26,20 @@ latest_file = max(
     xlsx_files,
     key=lambda f: f.stat().st_mtime
 )
-clean_name = latest_file.name
 
+clean_name = latest_file.name
 clean_name = clean_name.replace("_fixed", "")
 
-# remove timestamp
+# Remove timestamp
 parts = clean_name.rsplit("_", 2)
 
 if len(parts) == 3:
     clean_name = parts[0] + ".xlsx"
 
+print(f"Sending file: {clean_name}")
+
 # Read and encode file
 with open(latest_file, "rb") as f:
-
     file_content = base64.b64encode(
         f.read()
     ).decode("utf-8")
@@ -48,7 +49,16 @@ resend.Emails.send({
     "from": "onboarding@resend.dev",
     "to": [RECIPIENT],
     "subject": "Monthly KaaIoT Report",
-    "html": "<p>Attached is the processed KaaIoT report.</p>",
+    "html": """
+    <p>Hei,</p>
+
+    <p>Liitteenä KaaIoT-järjestelmästä muodostettu kuukausittainen energiaraportti.</p>
+
+    <p>
+    Ystävällisin terveisin,<br>
+    ETEC Automated Reporting
+    </p>
+    """,
     "attachments": [
         {
             "filename": clean_name,
