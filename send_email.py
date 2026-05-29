@@ -10,7 +10,7 @@ load_dotenv()
 # Resend API key
 resend.api_key = getenv("RESEND_API_KEY")
 
-# Recipient email
+# Recipients
 RECIPIENTS = [
     "alena.rebova@gmail.com",
     "alena.hakkarainen@etec.fi"
@@ -31,13 +31,15 @@ latest_file = max(
 )
 
 clean_name = latest_file.name
+
+# Remove _fixed
 clean_name = clean_name.replace("_fixed", "")
 
 # Remove timestamp
 parts = clean_name.rsplit("_", 2)
 
 if len(parts) == 3:
-    clean_name = parts[0] + ".xlsx"
+    clean_name = parts[0] + "_formatted.xlsx"
 
 print(f"Sending file: {clean_name}")
 
@@ -47,27 +49,31 @@ with open(latest_file, "rb") as f:
         f.read()
     ).decode("utf-8")
 
-# Send email
-resend.Emails.send({
-    "from": "onboarding@resend.dev",
-    "to": [RECIPIENTS],
-    "subject": "Monthly KaaIoT Report",
-    "html": """
-    <p>Hei,</p>
+# Send one email per recipient
+for recipient in RECIPIENTS:
 
-    <p>Liitteenä KaaIoT-järjestelmästä muodostettu kuukausittainen energiaraportti.</p>
+    resend.Emails.send({
+        "from": "onboarding@resend.dev",
+        "to": recipient,
+        "subject": "KaaIoT Monthly Energy Report (Formatted)",
+        "html": """
+        <p>Hei,</p>
 
-    <p>
-    Ystävällisin terveisin,<br>
-    Etec Automation Oy      
-    </p>
-    """,
-    "attachments": [
-        {
-            "filename": clean_name,
-            "content": file_content
-        }
-    ]
-})
+        <p>Liitteenä KaaIoT-järjestelmästä muodostettu kuukausittainen energiaraportti.</p>
 
-print("Email sent successfully!")
+        <p>
+        Ystävällisin terveisin,<br>
+        Etec Automation Oy
+        </p>
+        """,
+        "attachments": [
+            {
+                "filename": clean_name,
+                "content": file_content
+            }
+        ]
+    })
+
+    print(f"Email sent to {recipient}")
+
+print("All emails sent successfully!")
