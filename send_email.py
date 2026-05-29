@@ -11,7 +11,10 @@ load_dotenv()
 resend.api_key = getenv("RESEND_API_KEY")
 
 # Recipient email
-RECIPIENT = "alena.rebova@gmail.com"
+RECIPIENTS = [
+    "alena.rebova@gmail.com",
+    "alena.hakkarainen@etec.fi"
+]
 
 output_dir = Path("output")
 
@@ -47,7 +50,7 @@ with open(latest_file, "rb") as f:
 # Send email
 resend.Emails.send({
     "from": "onboarding@resend.dev",
-    "to": [RECIPIENT],
+    "to": [RECIPIENTS],
     "subject": "Monthly KaaIoT Report",
     "html": """
     <p>Hei,</p>
