@@ -12,8 +12,8 @@ resend.api_key = getenv("RESEND_API_KEY")
 
 # Recipients
 RECIPIENTS = [
-    "alena.rebova@gmail.com",
-    "alena.hakkarainen@etec.fi"
+    "alena.rebova@gmail.com"
+    
 ]
 
 output_dir = Path("output")
